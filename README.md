@@ -25,7 +25,7 @@
     header {
       background: transparent;
       text-align: center;
-      padding: 4rem 1rem 2rem;
+      padding: 3rem 1rem 2rem;
       z-index: 1;
       position: relative;
     }
