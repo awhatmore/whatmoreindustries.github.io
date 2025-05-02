@@ -36,7 +36,7 @@
     }
 
     header p {
-      font-size: 1.2rem;
+      font-size: 1.0rem;
       color: #aaa;
       margin-top: 0.5rem;
     }
