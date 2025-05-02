@@ -12,142 +12,67 @@
       background: #111;
       color: #eee;
       height: 100%;
-      overflow: hidden;
+      line-height: 1.6;
     }
+
     #particles-js {
       position: fixed;
       width: 100%;
       height: 100%;
       z-index: -1;
     }
-    .content {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding-top: 20vh;
-    }
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-    }
-    p {
-      font-size: 1.25rem;
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-  </style>
-</head>
-<body>
-  <div id="particles-js"></div>
-  <div class="content">
-    <h1>WHATMORE INDUSTRIES</h1>
-    <p>"A Living Archive. A Mind in Motion." Exploring energy, fabric, resonance, and invention across dimensions.</p>
-  </div>
 
-  <!-- Particles.js -->
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-  <script>
-    particlesJS("particles-js", {
-      "particles": {
-        "number": {
-          "value": 80,
-          "density": {
-            "enable": true,
-            "value_area": 800
-          }
-        },
-        "color": { "value": "#00ffff" },
-        "shape": {
-          "type": "circle",
-          "stroke": { "width": 0, "color": "#000000" }
-        },
-        "opacity": {
-          "value": 0.5,
-          "random": false
-        },
-        "size": {
-          "value": 3,
-          "random": true
-        },
-        "line_linked": {
-          "enable": true,
-          "distance": 150,
-          "color": "#00ffff",
-          "opacity": 0.4,
-          "width": 1
-        },
-        "move": {
-          "enable": true,
-          "speed": 2,
-          "direction": "none",
-          "random": false,
-          "straight": false,
-          "bounce": false
-        }
-      },
-      "interactivity": {
-        "detect_on": "canvas",
-        "events": {
-          "onhover": { "enable": true, "mode": "repulse" },
-          "onclick": { "enable": true, "mode": "push" }
-        },
-        "modes": {
-          "repulse": { "distance": 100, "duration": 0.4 },
-          "push": { "particles_nb": 4 }
-        }
-      },
-      "retina_detect": true
-    });
-  </script>
-</body>
-</html>
-<!DOCTYPE html><html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Whatmore Industries</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #eee;
-      line-height: 1.6;
-    }
     header {
-      background: #1e1e1e;
-      padding: 2rem;
+      background: transparent;
       text-align: center;
+      padding: 4rem 1rem 2rem;
+      z-index: 1;
+      position: relative;
     }
+
     header h1 {
+      font-size: 3rem;
       margin: 0;
-      font-size: 2.5rem;
     }
+
     header p {
-      margin-top: 0.5rem;
       font-size: 1.2rem;
       color: #aaa;
+      margin-top: 0.5rem;
     }
+
     nav {
       display: flex;
       justify-content: center;
       gap: 2rem;
-      background: #222;
+      background: rgba(34, 34, 34, 0.9);
       padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
+
     nav a {
       color: #fff;
       text-decoration: none;
     }
+
     nav a:hover {
       text-decoration: underline;
     }
+
     main {
-      padding: 2rem;
+      padding: 2rem 1rem;
       max-width: 800px;
       margin: auto;
+      position: relative;
+      z-index: 1;
     }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
     footer {
       background: #1e1e1e;
       text-align: center;
@@ -155,38 +80,85 @@
       font-size: 0.9rem;
       color: #666;
     }
+
+    a {
+      color: #00ffff;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 2rem; }
+      nav { flex-wrap: wrap; gap: 1rem; }
+    }
   </style>
 </head>
 <body>
+  <div id="particles-js"></div>
+
   <header>
     <h1>Whatmore Industries</h1>
-    <p>A living archive: A mind in motion</p>
-  </header>  <nav>
+    <p>"A Living Archive. A Mind in Motion."</p>
+  </header>
+
+  <nav>
     <a href="#about">About</a>
     <a href="#projects">Projects</a>
     <a href="#journal">Journal</a>
     <a href="#contact">Contact</a>
-  </nav>  <main>
+  </nav>
+
+  <main>
     <section id="about">
       <h2>About</h2>
       <p>I am the founder of Whatmore Industries. I build, test, observe, and connect — from off-grid systems and theoretical models to hands-on fabrication and prototyping. Every line I draw and every circuit I etch aims to serve a greater curiosity: what more is possible?</p>
-    </section><section id="projects">
-  <h2>Projects</h2>
-  <p>Explore my work in electromaterials, antenna theory, sustainable design, and beyond. Each project is a story of purpose and discovery.</p>
-</section>
+    </section>
 
-<section id="journal">
-  <h2>Journal</h2>
-  <p>Thoughts, theories, and breakthroughs — documented in motion. This is where process meets philosophy.</p>
-</section>
+    <section id="projects">
+      <h2>Projects</h2>
+      <p>Explore my work in electromaterials, antenna theory, sustainable design, and beyond. Each project is a story of purpose and discovery.</p>
+    </section>
 
-<section id="contact">
-  <h2>Contact</h2>
-  <p>To collaborate, ask questions, or propose a mission — reach out directly at <a href="mailto:contact@whatmoreindustries.io">contact@whatmoreindustries.io</a>.</p>
-</section>
+    <section id="journal">
+      <h2>Journal</h2>
+      <p>Thoughts, theories, and breakthroughs — documented in motion. This is where process meets philosophy.</p>
+    </section>
 
-  </main>  <footer>
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>To collaborate, ask questions, or propose a mission — reach out directly at <a href="mailto:contact@whatmoreindustries.io">contact@whatmoreindustries.io</a>.</p>
+    </section>
+  </main>
+
+  <footer>
     &copy; 2025 Whatmore Industries. All rights reserved.
   </footer>
-</body>
-</html>
+
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 }},
+        color: { value: "#00ffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5 },
+        size: { value: 3, random: true },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: "#00ffff",
+          opacity: 0.4,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 2,
+          direction: "none"
+        }
+      },
+      interactivity: {
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" }
+        },
+        modes: {
+          repulse: { distance: 100, duration: 0
