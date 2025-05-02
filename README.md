@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -95,8 +95,8 @@
   <div id="particles-js"></div>
 
   <header>
-    <h1>Whatmore Industries</h1>
-    <p>"A Living Archive. A Mind in Motion."</p>
+    <h1>WHATMORE INDUSTRIES</h1>
+    <p>"A Living Archive: A Mind in Motion."</p>
   </header>
 
   <nav>
@@ -161,4 +161,12 @@
           onclick: { enable: true, mode: "push" }
         },
         modes: {
-          repulse: { distance: 100, duration: 0
+          repulse: { distance: 100, duration: 0.4 },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+  </script>
+</body>
+</html>
