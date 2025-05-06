@@ -119,12 +119,15 @@
       <button onclick="appendCalc('1')">1</button>
       <button onclick="appendCalc('2')">2</button>
       <button onclick="appendCalc('3')">3</button>
+          </div><br>
       <button onclick="appendCalc('4')">4</button>
       <button onclick="appendCalc('5')">5</button>
       <button onclick="appendCalc('6')">6</button>
+          </div><br>
       <button onclick="appendCalc('7')">7</button>
       <button onclick="appendCalc('8')">8</button>
       <button onclick="appendCalc('9')">9</button>
+          </div><br>
       <button onclick="appendCalc('0')">0</button>
       <button onclick="appendCalc('.')">.</button>
       <button onclick="clearCalc()">Clear</button>
