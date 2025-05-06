@@ -105,6 +105,7 @@
     <a href="#journal">Journal</a>
     <a href="#contact">Contact</a>
   </nav>
+
   
   <section id="calculator">
   <h2>Smart Unit Calculator</h2>
@@ -113,42 +114,69 @@
       0
     </div>
 
+    <!-- Number Buttons -->
     <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-      <!-- Number buttons -->
-      ${[1,2,3,4,5,6,7,8,9,0,'.'].map(n =>
-        `<button onclick="appendCalc('${n}')">${n}</button>`).join('')}
+      <button onclick="appendCalc('1')">1</button>
+      <button onclick="appendCalc('2')">2</button>
+      <button onclick="appendCalc('3')">3</button>
+      <button onclick="appendCalc('4')">4</button>
+      <button onclick="appendCalc('5')">5</button>
+      <button onclick="appendCalc('6')">6</button>
+      <button onclick="appendCalc('7')">7</button>
+      <button onclick="appendCalc('8')">8</button>
+      <button onclick="appendCalc('9')">9</button>
+      <button onclick="appendCalc('0')">0</button>
+      <button onclick="appendCalc('.')">.</button>
       <button onclick="clearCalc()">Clear</button>
       <button onclick="backspace()">←</button>
       <button onclick="calculate()">=</button>
     </div><br>
 
-    <!-- Operation buttons -->
-    <div>
+    <!-- Operators -->
+    <div style="margin-bottom: 1rem;">
       <button onclick="appendCalc(' + ')">+</button>
       <button onclick="appendCalc(' - ')">-</button>
       <button onclick="appendCalc(' * ')">*</button>
       <button onclick="appendCalc(' / ')">/</button>
-    </div><br>
+    </div>
 
     <!-- Length Units -->
     <div>
       <strong>Length</strong><br>
-      ${['nm','μm','mm','cm','m','km','in','ft','yd','mi'].map(u =>
-        `<button onclick="appendCalc(' ${u} ')">${u}</button>`).join('')}
+      <button onclick="appendCalc(' nm ')">nm</button>
+      <button onclick="appendCalc(' μm ')">μm</button>
+      <button onclick="appendCalc(' mm ')">mm</button>
+      <button onclick="appendCalc(' cm ')">cm</button>
+      <button onclick="appendCalc(' m ')">m</button>
+      <button onclick="appendCalc(' km ')">km</button>
+      <button onclick="appendCalc(' in ')">in</button>
+      <button onclick="appendCalc(' ft ')">ft</button>
+      <button onclick="appendCalc(' yd ')">yd</button>
+      <button onclick="appendCalc(' mi ')">mi</button>
     </div><br>
 
     <!-- Mass Units -->
     <div>
       <strong>Mass</strong><br>
-      ${['mg','g','kg','t','oz','lb','st'].map(u =>
-        `<button onclick="appendCalc(' ${u} ')">${u}</button>`).join('')}
+      <button onclick="appendCalc(' mg ')">mg</button>
+      <button onclick="appendCalc(' g ')">g</button>
+      <button onclick="appendCalc(' kg ')">kg</button>
+      <button onclick="appendCalc(' t ')">t</button>
+      <button onclick="appendCalc(' oz ')">oz</button>
+      <button onclick="appendCalc(' lb ')">lb</button>
+      <button onclick="appendCalc(' st ')">st</button>
     </div><br>
 
     <!-- Time Units -->
     <div>
       <strong>Time</strong><br>
-      ${['ns','μs','ms','s','min','hr','day'].map(u =>
-        `<button onclick="appendCalc(' ${u} ')">${u}</button>`).join('')}
+      <button onclick="appendCalc(' ns ')">ns</button>
+      <button onclick="appendCalc(' μs ')">μs</button>
+      <button onclick="appendCalc(' ms ')">ms</button>
+      <button onclick="appendCalc(' s ')">s</button>
+      <button onclick="appendCalc(' min ')">min</button>
+      <button onclick="appendCalc(' hr ')">hr</button>
+      <button onclick="appendCalc(' day ')">day</button>
     </div>
   </div>
 </section>
