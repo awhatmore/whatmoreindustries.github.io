@@ -107,31 +107,49 @@
   </nav>
   
   <section id="calculator">
-  <h2>Smart Calculator</h2>
-  <div style="background:#222; padding:1rem; border-radius:0.5rem;">
-    <label>Value 1: <input type="text" id="value1" placeholder="e.g., 5 ft"></label><br><br>
-    <label>Operation:
-      <select id="operation">
-        <option value="*">*</option>
-        <option value="/">/</option>
-        <option value="+">+</option>
-        <option value="-">-</option>
-      </select>
-    </label><br><br>
-    <label>Value 2: <input type="text" id="value2" placeholder="e.g., 3"></label><br><br>
+  <h2>Smart Unit Calculator</h2>
+  <div style="background:#222; padding:1rem; border-radius:0.5rem; font-size:1rem;">
+    <div id="display" style="background:#000; padding:0.5rem 1rem; margin-bottom:1rem; color:#0f0; font-weight:bold;">
+      0
+    </div>
 
-    <strong>Unit Mode:</strong><br>
-    <button onclick="setUnitMode('keep')">Keep</button>
-    <button onclick="setUnitMode('metric')">Metric</button>
-    <button onclick="setUnitMode('imperial')">Imperial</button><br><br>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+      <!-- Number buttons -->
+      ${[1,2,3,4,5,6,7,8,9,0,'.'].map(n =>
+        `<button onclick="appendCalc('${n}')">${n}</button>`).join('')}
+      <button onclick="clearCalc()">Clear</button>
+      <button onclick="backspace()">←</button>
+      <button onclick="calculate()">=</button>
+    </div><br>
 
-    <strong>Fraction Mode:</strong><br>
-    <button onclick="setFractionMode('decimal')">Decimal</button>
-    <button onclick="setFractionMode('fraction')">Fraction</button>
-    <button onclick="setFractionMode('closest')">Closest Common Fraction</button><br><br>
+    <!-- Operation buttons -->
+    <div>
+      <button onclick="appendCalc(' + ')">+</button>
+      <button onclick="appendCalc(' - ')">-</button>
+      <button onclick="appendCalc(' * ')">*</button>
+      <button onclick="appendCalc(' / ')">/</button>
+    </div><br>
 
-    <button onclick="calculate()">Calculate</button>
-    <p id="calc-result" style="margin-top:1rem; color:#0f0;"></p>
+    <!-- Length Units -->
+    <div>
+      <strong>Length</strong><br>
+      ${['nm','μm','mm','cm','m','km','in','ft','yd','mi'].map(u =>
+        `<button onclick="appendCalc(' ${u} ')">${u}</button>`).join('')}
+    </div><br>
+
+    <!-- Mass Units -->
+    <div>
+      <strong>Mass</strong><br>
+      ${['mg','g','kg','t','oz','lb','st'].map(u =>
+        `<button onclick="appendCalc(' ${u} ')">${u}</button>`).join('')}
+    </div><br>
+
+    <!-- Time Units -->
+    <div>
+      <strong>Time</strong><br>
+      ${['ns','μs','ms','s','min','hr','day'].map(u =>
+        `<button onclick="appendCalc(' ${u} ')">${u}</button>`).join('')}
+    </div>
   </div>
 </section>
 
@@ -197,80 +215,35 @@
       retina_detect: true
     });
   </script>
+  
   <script>
-  let unitMode = 'keep';
-  let fractionMode = 'decimal';
+  <script>
+  let currentCalc = '';
 
-  function setUnitMode(mode) {
-    unitMode = mode;
+  function appendCalc(str) {
+    currentCalc += str;
+    document.getElementById('display').textContent = currentCalc;
   }
 
-  function setFractionMode(mode) {
-    fractionMode = mode;
+  function clearCalc() {
+    currentCalc = '';
+    document.getElementById('display').textContent = '0';
   }
 
-  function parseValue(input) {
-    const match = input.match(/([\d.\/]+)\s*([a-zA-Z]*)/);
-    if (!match) return { value: NaN, unit: "" };
-    let raw = match[1];
-    let unit = match[2];
-    let value;
-
-    if (raw.includes('/')) {
-      let parts = raw.split('/');
-      value = parseFloat(parts[0]) / parseFloat(parts[1]);
-    } else {
-      value = parseFloat(raw);
-    }
-
-    return { value, unit };
-  }
-
-  function toFraction(decimal) {
-    const gcd = (a, b) => b ? gcd(b, a % b) : a;
-    let top = Math.round(decimal * 1000), bottom = 1000;
-    let factor = gcd(top, bottom);
-    return `${top / factor}/${bottom / factor}`;
-  }
-
-  function closestCommonFraction(decimal) {
-    const common = [1/8, 1/4, 1/3, 3/8, 1/2, 5/8, 2/3, 3/4, 7/8, 1];
-    let closest = common.reduce((prev, curr) =>
-      Math.abs(curr - decimal) < Math.abs(prev - decimal) ? curr : prev
-    );
-    return toFraction(closest);
+  function backspace() {
+    currentCalc = currentCalc.trim().slice(0, -1);
+    document.getElementById('display').textContent = currentCalc || '0';
   }
 
   function calculate() {
-    let val1 = parseValue(document.getElementById('value1').value);
-    let val2 = parseValue(document.getElementById('value2').value);
-    let op = document.getElementById('operation').value;
-
-    if (isNaN(val1.value) || isNaN(val2.value)) {
-      document.getElementById('calc-result').textContent = 'Invalid input';
-      return;
+    try {
+      // TODO: parse units and do conversions before eval
+      const result = eval(currentCalc.replace(/[a-zA-Z]+/g, ''));
+      document.getElementById('display').textContent = result.toFixed(4);
+      currentCalc = result.toString();
+    } catch (e) {
+      document.getElementById('display').textContent = 'Error';
     }
-
-    let result;
-    switch (op) {
-      case '*': result = val1.value * val2.value; break;
-      case '/': result = val1.value / val2.value; break;
-      case '+': result = val1.value + val2.value; break;
-      case '-': result = val1.value - val2.value; break;
-    }
-
-    let unit = unitMode === 'keep' ? val1.unit : (unitMode === 'metric' ? 'm' : 'ft');
-
-    let display;
-    if (fractionMode === 'fraction') {
-      display = `${toFraction(result)} ${unit}`;
-    } else if (fractionMode === 'closest') {
-      display = `${closestCommonFraction(result)} ${unit}`;
-    } else {
-      display = `${result.toFixed(3)} ${unit}`;
-    }
-
-    document.getElementById('calc-result').textContent = `Result: ${display}`;
   }
 </script>
 </body>
