@@ -107,12 +107,32 @@
   </nav>
   
   <section id="calculator">
-  <h2>Calculator</h2>
-  <p>Use this simple tool for quick calculations relevant to your work.</p>
-  <input type="number" id="value1" placeholder="Enter first value" />
-  <input type="number" id="value2" placeholder="Enter second value" />
-  <button onclick="calculate()">Calculate</button>
-  <p id="result"></p>
+  <h2>Smart Calculator</h2>
+  <div style="background:#222; padding:1rem; border-radius:0.5rem;">
+    <label>Value 1: <input type="text" id="value1" placeholder="e.g., 5 ft"></label><br><br>
+    <label>Operation:
+      <select id="operation">
+        <option value="*">*</option>
+        <option value="/">/</option>
+        <option value="+">+</option>
+        <option value="-">-</option>
+      </select>
+    </label><br><br>
+    <label>Value 2: <input type="text" id="value2" placeholder="e.g., 3"></label><br><br>
+
+    <strong>Unit Mode:</strong><br>
+    <button onclick="setUnitMode('keep')">Keep</button>
+    <button onclick="setUnitMode('metric')">Metric</button>
+    <button onclick="setUnitMode('imperial')">Imperial</button><br><br>
+
+    <strong>Fraction Mode:</strong><br>
+    <button onclick="setFractionMode('decimal')">Decimal</button>
+    <button onclick="setFractionMode('fraction')">Fraction</button>
+    <button onclick="setFractionMode('closest')">Closest Common Fraction</button><br><br>
+
+    <button onclick="calculate()">Calculate</button>
+    <p id="calc-result" style="margin-top:1rem; color:#0f0;"></p>
+  </div>
 </section>
 
   <main>
@@ -178,15 +198,79 @@
     });
   </script>
   <script>
-  function calculate() {
-    const v1 = parseFloat(document.getElementById('value1').value);
-    const v2 = parseFloat(document.getElementById('value2').value);
-    if (!isNaN(v1) && !isNaN(v2)) {
-      const result = v1 + v2; // You can customize this formula
-      document.getElementById('result').innerText = `Result: ${result}`;
+  let unitMode = 'keep';
+  let fractionMode = 'decimal';
+
+  function setUnitMode(mode) {
+    unitMode = mode;
+  }
+
+  function setFractionMode(mode) {
+    fractionMode = mode;
+  }
+
+  function parseValue(input) {
+    const match = input.match(/([\d.\/]+)\s*([a-zA-Z]*)/);
+    if (!match) return { value: NaN, unit: "" };
+    let raw = match[1];
+    let unit = match[2];
+    let value;
+
+    if (raw.includes('/')) {
+      let parts = raw.split('/');
+      value = parseFloat(parts[0]) / parseFloat(parts[1]);
     } else {
-      document.getElementById('result').innerText = 'Please enter valid numbers.';
+      value = parseFloat(raw);
     }
+
+    return { value, unit };
+  }
+
+  function toFraction(decimal) {
+    const gcd = (a, b) => b ? gcd(b, a % b) : a;
+    let top = Math.round(decimal * 1000), bottom = 1000;
+    let factor = gcd(top, bottom);
+    return `${top / factor}/${bottom / factor}`;
+  }
+
+  function closestCommonFraction(decimal) {
+    const common = [1/8, 1/4, 1/3, 3/8, 1/2, 5/8, 2/3, 3/4, 7/8, 1];
+    let closest = common.reduce((prev, curr) =>
+      Math.abs(curr - decimal) < Math.abs(prev - decimal) ? curr : prev
+    );
+    return toFraction(closest);
+  }
+
+  function calculate() {
+    let val1 = parseValue(document.getElementById('value1').value);
+    let val2 = parseValue(document.getElementById('value2').value);
+    let op = document.getElementById('operation').value;
+
+    if (isNaN(val1.value) || isNaN(val2.value)) {
+      document.getElementById('calc-result').textContent = 'Invalid input';
+      return;
+    }
+
+    let result;
+    switch (op) {
+      case '*': result = val1.value * val2.value; break;
+      case '/': result = val1.value / val2.value; break;
+      case '+': result = val1.value + val2.value; break;
+      case '-': result = val1.value - val2.value; break;
+    }
+
+    let unit = unitMode === 'keep' ? val1.unit : (unitMode === 'metric' ? 'm' : 'ft');
+
+    let display;
+    if (fractionMode === 'fraction') {
+      display = `${toFraction(result)} ${unit}`;
+    } else if (fractionMode === 'closest') {
+      display = `${closestCommonFraction(result)} ${unit}`;
+    } else {
+      display = `${result.toFixed(3)} ${unit}`;
+    }
+
+    document.getElementById('calc-result').textContent = `Result: ${display}`;
   }
 </script>
 </body>
