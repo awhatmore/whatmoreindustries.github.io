@@ -137,7 +137,7 @@
       <button onclick="appendCalc(' + ')">+</button>
       <button onclick="appendCalc(' - ')">-</button><br>
       <button onclick="appendCalc(' * ')">*</button>
-      <button onclick="appendCalc(' / ')">/</button>
+      <button onclick="appendCalc('  / ')">/</button>
     </div>
 
     <!-- Length Units -->
