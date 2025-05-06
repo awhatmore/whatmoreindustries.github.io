@@ -105,6 +105,15 @@
     <a href="#journal">Journal</a>
     <a href="#contact">Contact</a>
   </nav>
+  
+  <section id="calculator">
+  <h2>Calculator</h2>
+  <p>Use this simple tool for quick calculations relevant to your work.</p>
+  <input type="number" id="value1" placeholder="Enter first value" />
+  <input type="number" id="value2" placeholder="Enter second value" />
+  <button onclick="calculate()">Calculate</button>
+  <p id="result"></p>
+</section>
 
   <main>
     <section id="about">
@@ -168,5 +177,19 @@
       retina_detect: true
     });
   </script>
+  <script>
+  function calculate() {
+    const v1 = parseFloat(document.getElementById('value1').value);
+    const v2 = parseFloat(document.getElementById('value2').value);
+    if (!isNaN(v1) && !isNaN(v2)) {
+      const result = v1 + v2; // You can customize this formula
+      document.getElementById('result').innerText = `Result: ${result}`;
+    } else {
+      document.getElementById('result').innerText = 'Please enter valid numbers.';
+    }
+  }
+</script>
 </body>
 </html>
+
+
