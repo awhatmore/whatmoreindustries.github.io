@@ -245,10 +245,6 @@
   </script>
   
   <script>
-  <script>
-  let calcDisplay = document.getElementById("display");
-  let calcExpression = "";
-
   const unitFactors = {
     // Length
     nm: 1e-9, μm: 1e-6, mm: 1e-3, cm: 1e-2, m: 1, km: 1e3,
@@ -259,79 +255,44 @@
     ns: 1e-9, μs: 1e-6, ms: 1e-3, s: 1, min: 60, hr: 3600, day: 86400
   };
 
-  function appendCalc(value) {
-    calcExpression += value;
-    calcDisplay.textContent = calcExpression;
-  }
-
-  function clearCalc() {
-    calcExpression = "";
-    calcDisplay.textContent = "0";
-  }
-
-  function backspace() {
-    calcExpression = calcExpression.slice(0, -1);
-    calcDisplay.textContent = calcExpression || "0";
-  }
-
   function parseExpression(expr) {
-    // Match numbers with optional unit (e.g., "10mm", "2.5 km")
+    // Match numbers with optional unit (e.g. "10mm", "2.5 km")
     return expr.match(/[\d.]+(?:\s*[a-zμA-Z]+)/g).map(term => {
-      let match = term.trim().match(/([\d.]+)\s*([a-zμA-Z]+)/);
-      if (!match) throw new Error("Invalid input: " + term);
-      let [_, num, unit] = match;
+      let [_, num, unit] = term.trim().match(/([\d.]+)\s*([a-zμA-Z]+)/);
       return { value: parseFloat(num), unit };
     });
   }
 
-  function bestUnit(total) {
-    // Choose the unit that makes the number fall in a nice readable range
-    const sorted = Object.entries(unitFactors)
-      .map(([unit, factor]) => ({
-        unit,
-        value: total / factor
-      }))
-      .filter(entry => entry.value >= 0.1 && entry.value <= 9999);
-
-    if (sorted.length === 0) return { unit: "base", value: total };
-
-    let best = sorted.reduce((a, b) => 
-      Math.abs(Math.log10(a.value)) < Math.abs(Math.log10(b.value)) ? a : b
-    );
-
-    return best;
-  }
-
   function calculate() {
     try {
-      const terms = parseExpression(calcExpression);
-      const isSameType = terms.every(t => unitFactors[t.unit]);
-      if (!isSameType) throw new Error("Incompatible or unknown units.");
+      const expression = currentCalc;
+      const terms = parseExpression(expression);
+      const baseUnit = terms[0].unit;
 
-      let totalSI = terms.reduce((sum, { value, unit }) => {
+      // Convert all to base unit's metric equivalent
+      let total = 0;
+      for (let { value, unit } of terms) {
         if (!unitFactors[unit]) throw new Error("Unknown unit: " + unit);
-        return sum + value * unitFactors[unit];
-      }, 0);
+        total += value * unitFactors[unit];
+      }
 
-      const { unit: recommendedUnit, value: convertedValue } = bestUnit(totalSI);
+      const baseValue = total / unitFactors[baseUnit];
 
       const altUnits = Object.entries(unitFactors)
-        .map(([unit, factor]) => ({
-          unit,
-          value: +(totalSI / factor).toPrecision(4)
-        }))
-        .sort((a, b) => a.value - b.value)
-        .slice(0, 5)
-        .map(u => `${u.value} ${u.unit}`)
-        .join(', ');
+        .filter(([u, f]) => u !== baseUnit)
+        .map(([u, f]) => `${(total / f).toPrecision(4)} ${u}`);
 
-      calcDisplay.textContent = `${convertedValue.toFixed(3)} ${recommendedUnit}\n→ Alt: ${altUnits}`;
-      calcExpression = "";
+      document.getElementById('display').textContent = 
+        `${baseValue.toFixed(3)} ${baseUnit}\nAlternates:\n${altUnits.slice(0, 5).join(', ')}`;
+
+      currentCalc = '';
     } catch (e) {
-      calcDisplay.textContent = "Error: " + e.message;
+      document.getElementById('display').textContent = 'Error: ' + e.message;
     }
   }
 </script>
+
+ 
 </body>
 </html>
 
