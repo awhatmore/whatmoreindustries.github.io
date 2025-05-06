@@ -246,51 +246,110 @@
   
   <script>
   const unitFactors = {
-    // Length
+    // Length (in meters)
     nm: 1e-9, μm: 1e-6, mm: 1e-3, cm: 1e-2, m: 1, km: 1e3,
     in: 0.0254, ft: 0.3048, yd: 0.9144, mi: 1609.34,
-    // Mass
-    mg: 1e-6, g: 1e-3, kg: 1, t: 1000, oz: 0.0283495, lb: 0.453592, st: 6.35029, kip: 453.592 * 1000,
-    // Time
+    // Mass (in kg)
+    mg: 1e-6, g: 1e-3, kg: 1, t: 1000, oz: 0.0283495, lb: 0.453592, st: 6.35029, kip: 453.592,
+    // Time (in seconds)
     ns: 1e-9, μs: 1e-6, ms: 1e-3, s: 1, min: 60, hr: 3600, day: 86400
   };
 
-  function parseExpression(expr) {
-    // Match numbers with optional unit (e.g. "10mm", "2.5 km")
-    return expr.match(/[\d.]+(?:\s*[a-zμA-Z]+)/g).map(term => {
-      let [_, num, unit] = term.trim().match(/([\d.]+)\s*([a-zμA-Z]+)/);
-      return { value: parseFloat(num), unit };
-    });
+  let expression = "";
+
+  function appendCalc(value) {
+    expression += value;
+    document.getElementById("display").innerText = expression;
+  }
+
+  function clearCalc() {
+    expression = "";
+    document.getElementById("display").innerText = "0";
+  }
+
+  function backspace() {
+    expression = expression.trim().slice(0, -1);
+    document.getElementById("display").innerText = expression || "0";
   }
 
   function calculate() {
     try {
-      const expression = currentCalc;
-      const terms = parseExpression(expression);
-      const baseUnit = terms[0].unit;
+      // Tokenize numbers and units
+      const parsed = expression.replace(/([0-9.]+)\s*([a-zμ]+)/gi, (match, value, unit) => {
+        if (unitFactors[unit]) {
+          return `(${parseFloat(value) * unitFactors[unit]})`; // convert to SI
+        } else {
+          throw new Error(`Unknown unit: ${unit}`);
+        }
+      });
 
-      // Convert all to base unit's metric equivalent
-      let total = 0;
-      for (let { value, unit } of terms) {
-        if (!unitFactors[unit]) throw new Error("Unknown unit: " + unit);
-        total += value * unitFactors[unit];
-      }
-
-      const baseValue = total / unitFactors[baseUnit];
-
-      const altUnits = Object.entries(unitFactors)
-        .filter(([u, f]) => u !== baseUnit)
-        .map(([u, f]) => `${(total / f).toPrecision(4)} ${u}`);
-
-      document.getElementById('display').textContent = 
-        `${baseValue.toFixed(3)} ${baseUnit}\nAlternates:\n${altUnits.slice(0, 5).join(', ')}`;
-
-      currentCalc = '';
-    } catch (e) {
-      document.getElementById('display').textContent = 'Error: ' + e.message;
+      const result = eval(parsed);
+      document.getElementById("display").innerText = result + " (SI)";
+      expression = result.toString();
+    } catch (err) {
+      document.getElementById("display").innerText = "Error";
+      expression = "";
     }
   }
 </script>
+
+<script>
+  let currentExpression = '';
+
+  function appendCalc(value) {
+    currentExpression += value;
+    document.getElementById('display').innerText = currentExpression;
+  }
+
+  function clearCalc() {
+    currentExpression = '';
+    document.getElementById('display').innerText = '0';
+  }
+
+  function backspace() {
+    currentExpression = currentExpression.slice(0, -1);
+    document.getElementById('display').innerText = currentExpression || '0';
+  }
+
+  function calculate() {
+    try {
+      const result = eval(currentExpression);
+      document.getElementById('display').innerText = result;
+      currentExpression = result.toString();
+    } catch (e) {
+      document.getElementById('display').innerText = 'Error';
+      currentExpression = '';
+    }
+  }
+</script>
+<script>
+  let calcStr = '';
+  function appendCalc(value) {
+    calcStr += value;
+    document.getElementById('display').textContent = calcStr;
+  }
+
+  function clearCalc() {
+    calcStr = '';
+    document.getElementById('display').textContent = '0';
+  }
+
+  function backspace() {
+    calcStr = calcStr.slice(0, -1);
+    document.getElementById('display').textContent = calcStr || '0';
+  }
+
+  function calculate() {
+    try {
+      const result = eval(calcStr);
+      document.getElementById('display').textContent = result;
+      calcStr = result.toString();
+    } catch (e) {
+      document.getElementById('display').textContent = 'Error';
+    }
+  }
+</script>
+Later, you'll want to replace eva
 
  
 </body>
