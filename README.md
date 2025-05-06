@@ -274,6 +274,36 @@
     }
   }
 </script>
+<script>
+  let calcDisplay = document.getElementById("display");
+  let calcExpression = "";
+
+  function appendCalc(value) {
+    calcExpression += value;
+    calcDisplay.textContent = calcExpression;
+  }
+
+  function clearCalc() {
+    calcExpression = "";
+    calcDisplay.textContent = "0";
+  }
+
+  function backspace() {
+    calcExpression = calcExpression.slice(0, -1);
+    calcDisplay.textContent = calcExpression || "0";
+  }
+
+  function calculate() {
+    try {
+      const result = eval(calcExpression);
+      calcDisplay.textContent = result;
+      calcExpression = result.toString();
+    } catch (e) {
+      calcDisplay.textContent = "Error";
+    }
+  }
+</script>
+
 </body>
 </html>
 
