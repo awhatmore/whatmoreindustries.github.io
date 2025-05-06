@@ -109,7 +109,7 @@
   
   <section id="calculator">
   <h2>Smart Unit Calculator</h2>
-  <div style="background:#222; padding:1rem; border-radius:0.5rem; font-size:1rem;">
+  <div style="background:#222; padding:1rem; border-radius:0.9rem; font-size:1rem;">
     <div id="display" style="background:#000; padding:0.5rem 1rem; margin-bottom:1rem; color:#0f0; font-weight:bold;">
       0
     </div>
