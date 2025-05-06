@@ -118,14 +118,14 @@
     <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
       <button onclick="appendCalc('1')">1</button>
       <button onclick="appendCalc('2')">2</button>
-      <button onclick="appendCalc('3')">3</button>
+      <button onclick="appendCalc('3')">3</button><br>
       <button onclick="appendCalc('4')">4</button>
       <button onclick="appendCalc('5')">5</button>
-      <button onclick="appendCalc('6')">6</button>
+      <button onclick="appendCalc('6')">6</button><br>
       <button onclick="appendCalc('7')">7</button>
       <button onclick="appendCalc('8')">8</button>
-      <button onclick="appendCalc('9')">9</button>
-      <button onclick="appendCalc('0')">0</button>
+      <button onclick="appendCalc('9')">9</button><br>
+      <button onclick="appendCalc('0')">0</button><br>
       <button onclick="appendCalc('.')">.</button>
       <button onclick="clearCalc()">Clear</button>
       <button onclick="backspace()">←</button>
@@ -135,7 +135,7 @@
     <!-- Operators -->
     <div style="margin-bottom: 1rem;">
       <button onclick="appendCalc(' + ')">+</button>
-      <button onclick="appendCalc(' - ')">-</button>
+      <button onclick="appendCalc(' - ')">-</button><br>
       <button onclick="appendCalc(' * ')">*</button>
       <button onclick="appendCalc(' / ')">/</button>
     </div>
@@ -148,7 +148,7 @@
       <button onclick="appendCalc(' mm ')">mm</button>
       <button onclick="appendCalc(' cm ')">cm</button>
       <button onclick="appendCalc(' m ')">m</button>
-      <button onclick="appendCalc(' km ')">km</button>
+      <button onclick="appendCalc(' km ')">km</button><br>
       <button onclick="appendCalc(' in ')">in</button>
       <button onclick="appendCalc(' ft ')">ft</button>
       <button onclick="appendCalc(' yd ')">yd</button>
@@ -160,7 +160,7 @@
       <strong>Mass</strong><br>
       <button onclick="appendCalc(' mg ')">mg</button>
       <button onclick="appendCalc(' g ')">g</button>
-      <button onclick="appendCalc(' kg ')">kg</button>
+      <button onclick="appendCalc(' kg ')">kg</button><br>
       <button onclick="appendCalc(' t ')">t</button>
       <button onclick="appendCalc(' oz ')">oz</button>
       <button onclick="appendCalc(' lb ')">lb</button>
